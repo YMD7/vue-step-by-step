@@ -4,12 +4,20 @@
     <meta charset="utf-8">
     <title>vue-step-by-step</title>
     <style>
-      .is-loading { background: red; }
+
     </style>
   </head>
   <body>
     <div id="root">
-      <button :class="{ 'is-loading': isLoading }" @click="toggleClass">Toggle Me</button>
+      <h2>All Tasks</h2>
+      <ul>
+        <li v-for="task in tasks" v-text="task.description"></li>
+      </ul>
+
+      <h2>Incomplete Tasks</h2>
+      <ul>
+        <li v-for="task in incompleteTasks" v-text="task.description"></li>
+      </ul>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2.5.13/dist/vue.js"></script>
@@ -18,11 +26,17 @@
       var app = new Vue({
         el: '#root',
         data: {
-          isLoading: false
+          tasks: [
+            { description: 'hoge', completed: false },
+            { description: 'foo', completed: true },
+            { description: 'bar', completed: false },
+            { description: 'bazbaz', completed: false },
+            { description: 'yaryar', completed: true }
+          ]
         },
-        methods: {
-          toggleClass () {
-            this.isLoading = true;
+        computed: {
+          incompleteTasks () {
+            return this.tasks.filter(task => ! task.completed);
           }
         }
       });
